@@ -2,14 +2,14 @@
 	#pragma once
 #endif
 
-#ifndef _OLD_RECORD_H_
-#define _OLD_RECORD_H_
+#ifndef _RECORD_H_
+#define _RECORD_H_
 
 #include <iostream>
 
 namespace MOONG
 {
-	namespace OLD_RECORD
+	namespace RECORD
 	{
 		namespace LOG_LEVEL
 		{
@@ -22,7 +22,7 @@ namespace MOONG
 		}
 	}
 	
-	class Old_Record
+	class Record
 	{
 	public:
 	protected:
@@ -76,4 +76,4 @@ namespace MOONG
 	};
 }
 
-#endif _OLD_RECORD_H_
+#endif _RECORD_H_

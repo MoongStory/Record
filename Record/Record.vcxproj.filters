@@ -33,7 +33,7 @@
     <ClCompile Include="..\..\ConvertDataType\ConvertDataType\ConvertDataType.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Old_Record.cpp">
+    <ClCompile Include="Record.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Time\Time\Time.cpp">
@@ -50,7 +50,7 @@
     <ClInclude Include="..\..\Time\Time\Time.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Old_Record.h">
+    <ClInclude Include="Record.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

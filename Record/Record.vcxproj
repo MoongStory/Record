@@ -132,14 +132,14 @@
     <ClCompile Include="..\..\ConvertDataType\ConvertDataType\ConvertDataType.cpp" />
     <ClCompile Include="..\..\StringTool\StringTool\StringTool.cpp" />
     <ClCompile Include="..\..\Time\Time\Time.cpp" />
-    <ClCompile Include="Old_Record.cpp" />
+    <ClCompile Include="Record.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ConvertDataType\ConvertDataType\ConvertDataType.h" />
     <ClInclude Include="..\..\StringTool\StringTool\StringTool.h" />
     <ClInclude Include="..\..\Time\Time\Time.h" />
-    <ClInclude Include="Old_Record.h" />
+    <ClInclude Include="Record.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

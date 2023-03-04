@@ -1,12 +1,12 @@
 #include <iostream>
 
-#include "Old_Record.h"
+#include "Record.h"
 
 int main()
 {
-	MOONG::Old_Record::set_delimiter("[NexessClient]");
+	MOONG::Record::set_delimiter("[NexessClient]");
 
-	MOONG::Old_Record::debug("test");
+	MOONG::Record::debug("test");
 
 	return 0;
 }
