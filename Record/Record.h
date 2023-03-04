@@ -5,6 +5,7 @@
 #ifndef _RECORD_H_
 #define _RECORD_H_
 
+#include <wtypes.h>
 #include <iostream>
 
 namespace MOONG
@@ -37,6 +38,8 @@ namespace MOONG
 		static std::string delimiter_;
 		static unsigned int log_level_;
 		static std::string log_file_path_;
+		static size_t log_file_count_;
+		static LONGLONG log_file_size_;
 		
 		
 		
@@ -73,7 +76,12 @@ namespace MOONG
 		static unsigned int get_log_level();
 		static void set_log_level(unsigned int log_level);
 
+		static const std::string get_log_file_path();
 		static void set_log_file_path(const std::string& log_file_path);
+		static void set_log_file_path(const std::wstring& log_file_path);
+
+		static const LONGLONG get_log_file_size();
+		static void set_log_file_size(const LONGLONG log_file_size);
 	private:
 		static void print_(const std::string& token, const std::string format, va_list arg_ptr);
 	};

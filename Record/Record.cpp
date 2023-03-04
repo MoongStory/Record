@@ -5,7 +5,6 @@
 #include "../../StringTool/StringTool/StringTool.h"
 #include "../../Time/Time/Time.h"
 
-#include <wtypes.h>
 #include <fstream>
 #include <strsafe.h>
 
@@ -19,6 +18,8 @@ const std::string MOONG::Record::FATAL_ = "[FATAL]";
 std::string MOONG::Record::delimiter_ = "[MOONG_DEBUG]";
 unsigned int MOONG::Record::log_level_ = MOONG::RECORD::LOG_LEVEL::LEVEL_TRACE;
 std::string MOONG::Record::log_file_path_ = "MoongRecord.log";
+size_t MOONG::Record::log_file_count_ = 0;
+LONGLONG MOONG::Record::log_file_size_ = 0;
 
 void MOONG::Record::trace(const std::string format, ...)
 {
@@ -236,9 +237,29 @@ void MOONG::Record::set_log_level(unsigned int log_level)
 	}
 }
 
+const std::string MOONG::Record::get_log_file_path()
+{
+	return MOONG::Record::log_file_path_;
+}
+
 void MOONG::Record::set_log_file_path(const std::string& log_file_path)
 {
 	MOONG::Record::log_file_path_ = log_file_path;
+}
+
+void MOONG::Record::set_log_file_path(const std::wstring& log_file_path)
+{
+	MOONG::Record::log_file_path_ = MOONG::ConvertDataType::wstring_to_string(log_file_path);
+}
+
+const LONGLONG MOONG::Record::get_log_file_size()
+{
+	return MOONG::Record::log_file_size_;
+}
+
+void MOONG::Record::set_log_file_size(const LONGLONG log_file_size)
+{
+	MOONG::Record::log_file_size_ = log_file_size;
 }
 
 
@@ -268,19 +289,46 @@ void MOONG::Record::print_(const std::string& token, const std::string format, v
 	// TODO:
 	//		용량 단위로 쪼개기
 	//		daily
-	std::ofstream write_file(MOONG::Record::log_file_path_, std::ios::app);
+	if (MOONG::Record::get_log_file_size() > 0)
+	{
+		if (true == MOONG::FileInformation::is_exist(MOONG::Record::get_log_file_path()) && MOONG::FileInformation::get_size(MOONG::Record::get_log_file_path()) >= MOONG::Record::get_log_file_size())
+		{
+			std::string file_directory = MOONG::FileInformation::get_directory(MOONG::Record::get_log_file_path());
+			std::string file_name_without_extension = MOONG::FileInformation::get_name_without_extension(MOONG::Record::get_log_file_path());
+			MOONG::StringTool::remove(file_name_without_extension, MOONG::StringTool::format("(%d)", MOONG::Record::log_file_count_));
+			std::string file_extension = MOONG::FileInformation::get_extension(MOONG::Record::get_log_file_path());
+
+			std::string new_file_path = "";
+
+			while (true)
+			{
+				MOONG::Record::log_file_count_++;
+
+				new_file_path = MOONG::StringTool::format("%s/%s(%d).%s", file_directory.c_str(), file_name_without_extension.c_str(), MOONG::Record::log_file_count_, file_extension.c_str());
+
+				if (false == MOONG::FileInformation::is_exist(new_file_path) || MOONG::FileInformation::get_size(new_file_path) < MOONG::Record::get_log_file_size())
+				{
+					MOONG::Record::set_log_file_path(new_file_path);
+
+					break;
+				}
+			}
+		}
+	}
+
+	// 경로가 없는 경우 새로 생성한다.
+	CreateDirectoryA(MOONG::FileInformation::get_directory(MOONG::Record::get_log_file_path()).c_str(), NULL);
+
+	std::ofstream write_file(MOONG::Record::get_log_file_path(), std::ios::app);
 
 	if (write_file.is_open())
 	{
-		// Write some text to the file
 		write_file << debug_string << std::endl;
 
-		// Close the file
 		write_file.close();
 	}
 	else
 	{
-		// Display an error message
-		OutputDebugStringA("[MOONG_RECORD] Failed to open the file.");
+		OutputDebugStringA(std::string(MOONG::Record::get_delimiter() + std::string(" Failed to open the file.")).c_str());
 	}
 }
