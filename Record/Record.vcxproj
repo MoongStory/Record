@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ConvertDataType\ConvertDataType\ConvertDataType.cpp" />
+    <ClCompile Include="..\..\FileInformation\FileInformation\FileInformation.cpp" />
     <ClCompile Include="..\..\StringTool\StringTool\StringTool.cpp" />
     <ClCompile Include="..\..\Time\Time\Time.cpp" />
     <ClCompile Include="Record.cpp" />
@@ -137,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ConvertDataType\ConvertDataType\ConvertDataType.h" />
+    <ClInclude Include="..\..\FileInformation\FileInformation\FileInformation.h" />
     <ClInclude Include="..\..\StringTool\StringTool\StringTool.h" />
     <ClInclude Include="..\..\Time\Time\Time.h" />
     <ClInclude Include="Record.h" />

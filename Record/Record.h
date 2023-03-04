@@ -36,6 +36,7 @@ namespace MOONG
 		
 		static std::string delimiter_;
 		static unsigned int log_level_;
+		static std::string log_file_path_;
 		
 		
 		
@@ -66,13 +67,15 @@ namespace MOONG
 		
 		
 		static const std::string get_delimiter();
-		static void set_delimiter(const std::string delimiter);
-		static void set_delimiter(const std::wstring wDelimiter);
+		static void set_delimiter(const std::string& delimiter);
+		static void set_delimiter(const std::wstring& wDelimiter);
 		
 		static unsigned int get_log_level();
 		static void set_log_level(unsigned int log_level);
+
+		static void set_log_file_path(const std::string& log_file_path);
 	private:
-		static void print_(const std::string token, const std::string format, va_list arg_ptr);
+		static void print_(const std::string& token, const std::string format, va_list arg_ptr);
 	};
 }
 

@@ -1,10 +1,12 @@
 #include "Record.h"
 
 #include "../../ConvertDataType/ConvertDataType/ConvertDataType.h"
+#include "../../FileInformation/FileInformation/FileInformation.h"
 #include "../../StringTool/StringTool/StringTool.h"
 #include "../../Time/Time/Time.h"
 
-#include <windows.h>
+#include <wtypes.h>
+#include <fstream>
 #include <strsafe.h>
 
 const std::string MOONG::Record::TRACE_ = "[TRACE]";
@@ -16,6 +18,7 @@ const std::string MOONG::Record::FATAL_ = "[FATAL]";
 
 std::string MOONG::Record::delimiter_ = "[MOONG_DEBUG]";
 unsigned int MOONG::Record::log_level_ = MOONG::RECORD::LOG_LEVEL::LEVEL_TRACE;
+std::string MOONG::Record::log_file_path_ = "MoongRecord.log";
 
 void MOONG::Record::trace(const std::string format, ...)
 {
@@ -196,7 +199,7 @@ const std::string MOONG::Record::get_delimiter()
 	return MOONG::Record::delimiter_;
 }
 
-void MOONG::Record::set_delimiter(const std::string delimiter)
+void MOONG::Record::set_delimiter(const std::string& delimiter)
 {
 	if (delimiter.empty())
 	{
@@ -208,7 +211,7 @@ void MOONG::Record::set_delimiter(const std::string delimiter)
 	}
 }
 
-void MOONG::Record::set_delimiter(const std::wstring wDelimiter)
+void MOONG::Record::set_delimiter(const std::wstring& wDelimiter)
 {
 	MOONG::Record::set_delimiter(MOONG::ConvertDataType::wstring_to_string(wDelimiter));
 }
@@ -233,11 +236,16 @@ void MOONG::Record::set_log_level(unsigned int log_level)
 	}
 }
 
+void MOONG::Record::set_log_file_path(const std::string& log_file_path)
+{
+	MOONG::Record::log_file_path_ = log_file_path;
+}
 
 
 
 
-void MOONG::Record::print_(const std::string token, const std::string format, va_list arg_ptr)
+
+void MOONG::Record::print_(const std::string& token, const std::string format, va_list arg_ptr)
 {
 	std::string debug_string = "";
 
@@ -258,8 +266,21 @@ void MOONG::Record::print_(const std::string token, const std::string format, va
 	debug_string += MOONG::StringTool::format(format, arg_ptr);;
 	
 	// TODO:
-	//		파일에 쓰기.
 	//		용량 단위로 쪼개기
 	//		daily
-	OutputDebugStringA(debug_string.c_str());
+	std::ofstream write_file(MOONG::Record::log_file_path_, std::ios::app);
+
+	if (write_file.is_open())
+	{
+		// Write some text to the file
+		write_file << debug_string << std::endl;
+
+		// Close the file
+		write_file.close();
+	}
+	else
+	{
+		// Display an error message
+		OutputDebugStringA("[MOONG_RECORD] Failed to open the file.");
+	}
 }
