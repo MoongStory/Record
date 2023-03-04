@@ -16,14 +16,14 @@ const std::string MOONG::Record::ERROR_ = "[ERROR]";
 const std::string MOONG::Record::FATAL_ = "[FATAL]";
 
 std::string MOONG::Record::delimiter_ = "[MOONG_DEBUG]";
-unsigned int MOONG::Record::record_level_ = MOONG::RECORD::RECORD_LEVEL::LEVEL_TRACE;
+unsigned int MOONG::Record::record_level_ = MOONG::RECORD::RECORD_LEVEL::TRACE_;
 std::string MOONG::Record::record_file_path_ = "MoongRecord.log";
 size_t MOONG::Record::record_file_count_ = 0;
 LONGLONG MOONG::Record::record_file_size_ = 0;
 
 void MOONG::Record::trace(const std::string format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_TRACE)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::TRACE_)
 	{
 		va_list arg_ptr;
 
@@ -35,7 +35,7 @@ void MOONG::Record::trace(const std::string format, ...)
 
 void MOONG::Record::trace(const std::wstring format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_TRACE)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::TRACE_)
 	{
 		va_list arg_ptr;
 
@@ -49,7 +49,7 @@ void MOONG::Record::trace(const std::wstring format, ...)
 
 void MOONG::Record::debug(const std::string format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_DEBUG)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::DEBUG_)
 	{
 		va_list arg_ptr;
 
@@ -61,7 +61,7 @@ void MOONG::Record::debug(const std::string format, ...)
 
 void MOONG::Record::debug(const std::wstring format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_DEBUG)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::DEBUG_)
 	{
 		va_list arg_ptr;
 
@@ -75,7 +75,7 @@ void MOONG::Record::debug(const std::wstring format, ...)
 
 void MOONG::Record::info(const std::string format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_INFO)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::INFO_)
 	{
 		va_list arg_ptr;
 
@@ -87,7 +87,7 @@ void MOONG::Record::info(const std::string format, ...)
 
 void MOONG::Record::info(const std::wstring format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_INFO)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::INFO_)
 	{
 		va_list arg_ptr;
 
@@ -101,7 +101,7 @@ void MOONG::Record::info(const std::wstring format, ...)
 
 void MOONG::Record::warn(const std::string format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_WARN)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::WARN_)
 	{
 		va_list arg_ptr;
 
@@ -113,7 +113,7 @@ void MOONG::Record::warn(const std::string format, ...)
 
 void MOONG::Record::warn(const std::wstring format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_WARN)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::WARN_)
 	{
 		va_list arg_ptr;
 
@@ -127,7 +127,7 @@ void MOONG::Record::warn(const std::wstring format, ...)
 
 void MOONG::Record::error(const std::string format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_ERROR)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::ERROR_)
 	{
 		va_list arg_ptr;
 
@@ -139,7 +139,7 @@ void MOONG::Record::error(const std::string format, ...)
 
 void MOONG::Record::error(const std::wstring format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_ERROR)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::ERROR_)
 	{
 		va_list arg_ptr;
 
@@ -153,7 +153,7 @@ void MOONG::Record::error(const std::wstring format, ...)
 
 void MOONG::Record::fatal(const std::string format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_FATAL)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::FATAL_)
 	{
 		va_list arg_ptr;
 
@@ -165,7 +165,7 @@ void MOONG::Record::fatal(const std::string format, ...)
 
 void MOONG::Record::fatal(const std::wstring format, ...)
 {
-	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::LEVEL_FATAL)
+	if(MOONG::Record::get_record_level() <= MOONG::RECORD::RECORD_LEVEL::FATAL_)
 	{
 		va_list arg_ptr;
 
@@ -226,10 +226,10 @@ void MOONG::Record::set_record_level(const unsigned int record_level)
 {
 	MOONG::Record::record_level_ = record_level;
 
-	if (record_level < MOONG::RECORD::RECORD_LEVEL::LEVEL_TRACE || record_level > MOONG::RECORD::RECORD_LEVEL::LEVEL_FATAL)
+	if (record_level < MOONG::RECORD::RECORD_LEVEL::TRACE_ || record_level > MOONG::RECORD::RECORD_LEVEL::FATAL_)
 	{
 		MOONG::Record::fatal("Log Level 설정값이 잘못되어 Log Level이 Error Level로 초기화 됩니다.");
-		MOONG::Record::record_level_ = MOONG::RECORD::RECORD_LEVEL::LEVEL_ERROR;
+		MOONG::Record::record_level_ = MOONG::RECORD::RECORD_LEVEL::ERROR_;
 	}
 	else
 	{
