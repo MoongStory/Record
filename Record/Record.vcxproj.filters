@@ -16,24 +16,42 @@
     <Filter Include="Common">
       <UniqueIdentifier>{311ee8a9-d2da-4b6e-8d58-9c6cfa4a7680}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GitHub">
+      <UniqueIdentifier>{31805936-8d10-484a-8306-ad28be7bee66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GitHub\spdlog">
+      <UniqueIdentifier>{2154013a-ad0a-4f51-afb5-29dafd6f0dbf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Record.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="..\..\StringTool\StringTool\StringTool.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ConvertDataType\ConvertDataType\ConvertDataType.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Old_Record.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Time\Time\Time.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Record.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\StringTool\StringTool\StringTool.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ConvertDataType\ConvertDataType\ConvertDataType.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Time\Time\Time.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Old_Record.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
