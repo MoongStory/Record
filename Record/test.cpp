@@ -12,12 +12,12 @@ int main()
 	MOONG::Record::debug("debug 000");
 	MOONG::Record::info("info 000");
 
-	MOONG::Record::set_record_level(MOONG::RECORD::RECORD_LEVEL::INFO_);
+	MOONG::Record::set_record_level(MOONG::RECORD::LEVEL::INFO_);
 
 	MOONG::Record::debug("debug 001");
 	MOONG::Record::info("info 001");
 
-	MOONG::Record::set_record_level(MOONG::RECORD::RECORD_LEVEL::DEBUG_);
+	MOONG::Record::set_record_level(MOONG::RECORD::LEVEL::DEBUG_);
 
 	MOONG::Record::debug("debug 002");
 	MOONG::Record::info("info 002");
