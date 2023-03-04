@@ -8,11 +8,13 @@
 #include <wtypes.h>
 #include <iostream>
 
+// TODO: daily 기능 추가.
+
 namespace MOONG
 {
 	namespace RECORD
 	{
-		namespace LOG_LEVEL
+		namespace RECORD_LEVEL
 		{
 			static const int LEVEL_TRACE = 0;	// 경로 추적을 위해 사용한다.
 			static const int LEVEL_DEBUG = 1;	// 일반 정보를 상세히 나타낼 때 사용한다.
@@ -36,10 +38,10 @@ namespace MOONG
 		static const std::string FATAL_;
 		
 		static std::string delimiter_;
-		static unsigned int log_level_;
-		static std::string log_file_path_;
-		static size_t log_file_count_;
-		static LONGLONG log_file_size_;
+		static unsigned int record_level_;
+		static std::string record_file_path_;
+		static size_t record_file_count_;
+		static LONGLONG record_file_size_;
 		
 		
 		
@@ -73,15 +75,15 @@ namespace MOONG
 		static void set_delimiter(const std::string& delimiter);
 		static void set_delimiter(const std::wstring& wDelimiter);
 		
-		static unsigned int get_log_level();
-		static void set_log_level(unsigned int log_level);
+		static unsigned int get_record_level();
+		static void set_record_level(const unsigned int record_level);
 
-		static const std::string get_log_file_path();
-		static void set_log_file_path(const std::string& log_file_path);
-		static void set_log_file_path(const std::wstring& log_file_path);
+		static const std::string get_record_file_path();
+		static void set_record_file_path(const std::string& record_file_path);
+		static void set_record_file_path(const std::wstring& record_file_path);
 
-		static const LONGLONG get_log_file_size();
-		static void set_log_file_size(const LONGLONG log_file_size);
+		static const LONGLONG get_record_file_size();
+		static void set_record_file_size(const LONGLONG record_file_size);
 	private:
 		static void print_(const std::string& token, const std::string format, va_list arg_ptr);
 	};
