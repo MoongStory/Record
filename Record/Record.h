@@ -8,8 +8,6 @@
 #include <wtypes.h>
 #include <iostream>
 
-// TODO: daily 기능 추가.
-
 namespace MOONG
 {
 	namespace RECORD
@@ -22,6 +20,11 @@ namespace MOONG
 			static const int WARN_ = 3;	// 에러는 아니지만 주의할 필요가 있을 때 사용한다.
 			static const int ERROR_ = 4;	// 일반 에러가 일어났을 때 사용한다.
 			static const int FATAL_ = 5;	// 가장 크리티컬한 에러가 일어났을 때 사용한다.
+		}
+
+		namespace MODE
+		{
+			static const std::string DAILY = "daily";
 		}
 	}
 	
@@ -39,9 +42,10 @@ namespace MOONG
 		
 		static std::string delimiter_;
 		static unsigned int record_level_;
+		static std::string record_mode_;
+		static LONGLONG maximum_record_file_size_;
 		static std::string record_file_path_;
-		static size_t record_file_count_;
-		static LONGLONG record_file_size_;
+		static std::string record_file_path_currently_use_;
 		
 		
 		
@@ -82,10 +86,21 @@ namespace MOONG
 		static void set_record_file_path(const std::string& record_file_path);
 		static void set_record_file_path(const std::wstring& record_file_path);
 
-		static const LONGLONG get_record_file_size();
-		static void set_record_file_size(const LONGLONG record_file_size);
+		static const LONGLONG get_maximum_record_file_size();
+		static void set_maximum_record_file_size(const LONGLONG maximum_record_file_size);
+
+		static const std::string get_record_mode();
+		static void set_record_mode(const std::string& record_mode);
+		static void set_record_mode(const std::wstring& record_mode);
+
+		static const std::string get_record_file_path_currently_use();
 	private:
 		static void print_(const std::string& token, const std::string format, va_list arg_ptr);
+
+		// 새로 생성한 파일 전체 경로를 record_file_path_currently_use_ 변수에 초기화하고 동일한 값을 리턴한다.
+		static const std::string generate_next_available_record_file_path();
+
+		static const bool check_record_file_available(const std::string& record_file_path);
 	};
 }
 
