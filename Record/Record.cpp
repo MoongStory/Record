@@ -2,6 +2,7 @@
 
 #include "../../ConvertDataType/ConvertDataType/ConvertDataType.h"
 #include "../../FileInformation/FileInformation/FileInformation.h"
+#include "../../Path/Path/Path.h"
 #include "../../StringTool/StringTool/StringTool.h"
 #include "../../Time/Time/Time.h"
 
@@ -203,14 +204,7 @@ const std::string MOONG::Record::get_delimiter()
 
 void MOONG::Record::set_delimiter(const std::string& delimiter)
 {
-	if (delimiter.empty())
-	{
-		MOONG::Record::delimiter_ = "[MOONG_DEBUG]";
-	}
-	else
-	{
-		MOONG::Record::delimiter_ = delimiter;
-	}
+	MOONG::Record::delimiter_ = delimiter;
 }
 
 void MOONG::Record::set_delimiter(const std::wstring& wDelimiter)
@@ -245,6 +239,8 @@ const std::string MOONG::Record::get_record_file_path()
 
 void MOONG::Record::set_record_file_path(const std::string& record_file_path)
 {
+	MOONG::Record::record_file_path_currently_use_ = "";
+
 	MOONG::Record::record_file_path_ = record_file_path;
 }
 
@@ -299,7 +295,7 @@ void MOONG::Record::print_(const std::string& token, const std::string format, v
 	// 경로가 없는 경우 새로 생성한다.
 	CreateDirectoryA(MOONG::FileInformation::get_directory(MOONG::Record::get_record_file_path_currently_use()).c_str(), NULL);
 
-	std::ofstream write_file(MOONG::Record::get_record_file_path_currently_use(), std::ios::app);
+	std::ofstream write_file(MOONG::Record::get_record_file_path_currently_use().c_str(), std::ios::app);
 
 	if (write_file.is_open())
 	{
@@ -312,8 +308,11 @@ void MOONG::Record::print_(const std::string& token, const std::string format, v
 		debug_string += MOONG::StringTool::format("[PID:%04X]", GetCurrentProcessId());
 		debug_string += MOONG::StringTool::format("[TID:%04X]", GetCurrentThreadId());
 		debug_string += " ";
-		debug_string += MOONG::Record::get_delimiter();
-		debug_string += " ";
+		if (MOONG::Record::get_delimiter().length() > 0)
+		{
+			debug_string += MOONG::Record::get_delimiter();
+			debug_string += " ";
+		}
 		if (token.length() > 0)
 		{
 			debug_string += token;
@@ -339,22 +338,50 @@ const std::string MOONG::Record::generate_next_available_record_file_path()
 
 	std::string next_available_record_file_path = "";
 
-	if (MOONG::Record::get_record_mode() == MOONG::RECORD::MODE::DAILY)
+	// 경로.
+	if (file_directory.length() <= 0)
 	{
-		next_available_record_file_path = MOONG::StringTool::format("%s/%s_%s.%s",
-			file_directory.c_str(),
-			MOONG::Time::make_date_format(MOONG::Time::get_current_time(), "YEAR-MONTH-DAY(month_format:%02d)(day_format:%02d)").c_str(),
-			file_name_without_extension.c_str(),
-			file_extension.c_str()
-		);
+		next_available_record_file_path += MOONG::Path::get_directory_desktop();
 	}
 	else
 	{
-		next_available_record_file_path = MOONG::StringTool::format("%s/%s.%s",
-			file_directory.c_str(),
-			file_name_without_extension.c_str(),
-			file_extension.c_str()
-		);
+		next_available_record_file_path += file_directory;
+	}
+	next_available_record_file_path += "\\";
+	
+	// daily 모드일 경우.
+	if (MOONG::Record::get_record_mode() == MOONG::RECORD::MODE::DAILY)
+	{
+		next_available_record_file_path += MOONG::Time::make_date_format(MOONG::Time::get_current_time(), "YEAR-MONTH-DAY(month_format:%02d)(day_format:%02d)");
+		next_available_record_file_path += "_";
+	}
+
+	// 파일 이름.
+	if (file_name_without_extension.length() <= 0)
+	{
+		next_available_record_file_path += "make_log_file_something_wrong";
+	}
+	else
+	{
+		next_available_record_file_path += file_name_without_extension;
+	}
+
+	// 파일 최대 크기를 정한 경우 파일 이름 정렬을 위해 시작 파일 이름 뒤에 "(0)"을 붙여준다.
+	if (MOONG::Record::get_maximum_record_file_size() > 0)
+	{
+		next_available_record_file_path += "(0)";
+	}
+
+	// 파일 확장자.
+	if (file_extension.length() <= 0)
+	{
+		next_available_record_file_path += ".";
+		next_available_record_file_path += "log";
+	}
+	else
+	{
+		next_available_record_file_path += ".";
+		next_available_record_file_path += file_extension;
 	}
 
 	if (MOONG::Record::check_record_file_available(next_available_record_file_path) == true)
@@ -363,29 +390,53 @@ const std::string MOONG::Record::generate_next_available_record_file_path()
 
 		return MOONG::Record::record_file_path_currently_use_;
 	}
-
-	for (size_t i = 1; i < 1000000; i++)	// 무한 반복 방지를 위해 100만번으로 반복 횟수 제한.
+	
+	for (size_t i = 1; i < 10000; i++)	// 무한 반복 방지를 위해 1만번으로 반복 횟수 제한.
 	{
-		if (MOONG::Record::get_record_mode() == MOONG::RECORD::MODE::DAILY)
+		next_available_record_file_path = "";
+		
+		// 경로.
+		if (file_directory.length() <= 0)
 		{
-			next_available_record_file_path = MOONG::StringTool::format("%s/%s_%s(%d).%s",
-				file_directory.c_str(),
-				MOONG::Time::make_date_format(MOONG::Time::get_current_time(), "YEAR-MONTH-DAY(month_format:%02d)(day_format:%02d)").c_str(),
-				file_name_without_extension.c_str(),
-				i,
-				file_extension.c_str()
-			);
+			next_available_record_file_path += MOONG::Path::get_directory_desktop();
 		}
 		else
 		{
-			next_available_record_file_path = MOONG::StringTool::format("%s/%s(%d).%s",
-				file_directory.c_str(),
-				file_name_without_extension.c_str(),
-				i,
-				file_extension.c_str()
-			);
+			next_available_record_file_path += file_directory;
+		}
+		next_available_record_file_path += "\\";
+		
+		// daily 모드일 경우.
+		if (MOONG::Record::get_record_mode() == MOONG::RECORD::MODE::DAILY)
+		{
+			next_available_record_file_path += MOONG::Time::make_date_format(MOONG::Time::get_current_time(), "YEAR-MONTH-DAY(month_format:%02d)(day_format:%02d)");
+			next_available_record_file_path += "_";
+		}
+		
+		// 파일 이름.
+		if (file_name_without_extension.length() <= 0)
+		{
+			next_available_record_file_path += "make_log_file_something_wrong";
+		}
+		else
+		{
+			next_available_record_file_path += file_name_without_extension;
 		}
 
+		next_available_record_file_path += MOONG::StringTool::format("(%d)", i);
+		
+		// 파일 확장자.
+		if (file_extension.length() <= 0)
+		{
+			next_available_record_file_path += ".";
+			next_available_record_file_path += "log";
+		}
+		else
+		{
+			next_available_record_file_path += ".";
+			next_available_record_file_path += file_extension;
+		}
+		
 		if (MOONG::Record::check_record_file_available(next_available_record_file_path) == true)
 		{
 			MOONG::Record::record_file_path_currently_use_ = next_available_record_file_path;
@@ -394,9 +445,9 @@ const std::string MOONG::Record::generate_next_available_record_file_path()
 		}
 	}
 
-	// 이 파일이 생성되었다는것은 뭔가 논리 에러가 있다는 뜻. 설마 파일 넘버링이 100만개 이상...? 
+	// 이 파일이 생성되었다는것은 뭔가 논리 에러가 있다는 뜻. 설마 파일 넘버링이 1만개 이상...? 
 	MOONG::Record::record_file_path_currently_use_ = MOONG::StringTool::format("%s/%s.%s",
-		file_directory.c_str(),
+		MOONG::Path::get_directory_desktop().c_str(),
 		"generate_next_available_record_file_path_logic_error",
 		file_extension.c_str()
 	);
