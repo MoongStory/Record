@@ -266,6 +266,8 @@ const std::string MOONG::Record::get_record_mode()
 
 void MOONG::Record::set_record_mode(const std::string& record_mode)
 {
+	MOONG::Record::record_file_path_currently_use_ = "";
+
 	MOONG::Record::record_mode_ = MOONG::StringTool::tolower_keep_origin(record_mode);
 }
 
