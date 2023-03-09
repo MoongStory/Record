@@ -226,9 +226,39 @@ void MOONG::Record::set_record_level(const unsigned int record_level)
 		MOONG::Record::fatal("Log Level 설정값이 잘못되어 Log Level이 Error Level로 초기화 됩니다.");
 		MOONG::Record::record_level_ = MOONG::RECORD::LEVEL::ERROR_;
 	}
+}
+
+void MOONG::Record::set_record_level(const std::string& param_record_level)
+{
+	std::string record_level = MOONG::StringTool::trim_keep_origin(MOONG::StringTool::tolower_keep_origin(param_record_level));
+
+	if (record_level == "trace")
+	{
+		MOONG::Record::set_record_level(MOONG::RECORD::LEVEL::TRACE_);
+	}
+	else if (record_level == "debug")
+	{
+		MOONG::Record::set_record_level(MOONG::RECORD::LEVEL::DEBUG_);
+	}
+	else if (record_level == "info")
+	{
+		MOONG::Record::set_record_level(MOONG::RECORD::LEVEL::INFO_);
+	}
+	else if (record_level == "warn")
+	{
+		MOONG::Record::set_record_level(MOONG::RECORD::LEVEL::WARN_);
+	}
+	else if (record_level == "error")
+	{
+		MOONG::Record::set_record_level(MOONG::RECORD::LEVEL::ERROR_);
+	}
+	else if (record_level == "fatal")
+	{
+		MOONG::Record::set_record_level(MOONG::RECORD::LEVEL::FATAL_);
+	}
 	else
 	{
-		MOONG::Record::record_level_ = record_level;
+		MOONG::Record::set_record_level(MOONG::RECORD::LEVEL::TRACE_);
 	}
 }
 

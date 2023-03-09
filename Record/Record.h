@@ -81,6 +81,7 @@ namespace MOONG
 		
 		static unsigned int get_record_level();
 		static void set_record_level(const unsigned int record_level);
+		static void set_record_level(const std::string& param_record_level);
 
 		static const std::string get_record_file_path();
 		static void set_record_file_path(const std::string& record_file_path);
