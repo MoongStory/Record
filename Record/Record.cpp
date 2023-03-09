@@ -228,9 +228,9 @@ void MOONG::Record::set_record_level(const unsigned int record_level)
 	}
 }
 
-void MOONG::Record::set_record_level(const std::string& param_record_level)
+void MOONG::Record::set_record_level(std::string record_level)
 {
-	std::string record_level = MOONG::StringTool::trim_keep_origin(MOONG::StringTool::tolower_keep_origin(param_record_level));
+	MOONG::StringTool::trim(MOONG::StringTool::tolower(record_level));
 
 	if (record_level == "trace")
 	{
