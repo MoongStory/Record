@@ -6,7 +6,7 @@ int main()
 {
 	//MOONG::Record::set_log_file_path("C:/Users/moong/Desktop/Log/MoongRecord.log");
 	MOONG::Record::set_record_file_path("./·Î±×/MoongRecord.log");
-	MOONG::Record::set_delimiter("[MOONG_RECORD]");
+	//MOONG::Record::set_delimiter("[MOONG_RECORD]");
 	//MOONG::Record::set_maximum_record_file_size(100);
 	//MOONG::Record::set_record_mode("");
 

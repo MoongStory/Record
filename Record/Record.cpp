@@ -16,7 +16,7 @@ const std::string MOONG::Record::WARN_ = "[WARN]";
 const std::string MOONG::Record::ERROR_ = "[ERROR]";
 const std::string MOONG::Record::FATAL_ = "[FATAL]";
 
-std::string MOONG::Record::delimiter_ = "[MOONG_DEBUG]";
+std::string MOONG::Record::delimiter_ = "";
 unsigned int MOONG::Record::record_level_ = MOONG::RECORD::LEVEL::TRACE_;
 std::string MOONG::Record::record_file_path_ = "MoongRecord.log";
 LONGLONG MOONG::Record::maximum_record_file_size_ = 0;
@@ -358,7 +358,7 @@ void MOONG::Record::print_(const std::string& token, const std::string format, v
 	}
 	else
 	{
-		OutputDebugStringA(std::string(MOONG::Record::get_delimiter() + std::string(" Failed to open the file.")).c_str());
+		OutputDebugStringA(std::string(MOONG::Record::get_record_file_path() + std::string(" Failed to open the file.")).c_str());
 	}
 }
 
